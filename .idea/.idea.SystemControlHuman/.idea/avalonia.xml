@@ -3,6 +3,7 @@
   <component name="AvaloniaProject">
     <option name="projectPerEditor">
       <map>
+        <entry key="SystemControlHuman/App.axaml" value="SystemControlHuman/SystemControlHuman.csproj" />
         <entry key="SystemControlHuman/Views/MainWindow.axaml" value="SystemControlHuman/SystemControlHuman.csproj" />
       </map>
     </option>
