@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SystemControlHuman", "SystemControlHuman\SystemControlHuman.csproj", "{3EAB3A8C-3631-4811-8E19-C622BD685CE3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SystemControlHumanAPI", "SystemControlHumanAPI\SystemControlHumanAPI.csproj", "{8BDB456D-4D0A-40BC-BBAF-94977AE185FE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3EAB3A8C-3631-4811-8E19-C622BD685CE3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3EAB3A8C-3631-4811-8E19-C622BD685CE3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3EAB3A8C-3631-4811-8E19-C622BD685CE3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3EAB3A8C-3631-4811-8E19-C622BD685CE3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8BDB456D-4D0A-40BC-BBAF-94977AE185FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8BDB456D-4D0A-40BC-BBAF-94977AE185FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8BDB456D-4D0A-40BC-BBAF-94977AE185FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8BDB456D-4D0A-40BC-BBAF-94977AE185FE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
