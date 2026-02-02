@@ -1,0 +1,6 @@
+@SystemControlHumanAPI_HostAddress = http://localhost:5246
+
+GET {{SystemControlHumanAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
