@@ -1,15 +1,38 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using SystemControlHumanAPI.DB;
+using SystemControlHumanAPI.DTO;
 
 namespace SystemControlHumanAPI.Controllers;
 
-[ApiController]
-[Route("[controller]")]
-
+[Route("api/auth/[controller]")]
 public class AuthController : Controller
 {
-    [HttpPost("/api/auth/login")]
-    public async Task Login(string username, string password)
+    public SystemControlContext db { get; set; }
+
+    public AuthController(SystemControlContext db)
     {
-        return View();
+        this.db = db;
+    }
+
+    [HttpPost("auth/login")]
+    public async Task<ActionResult> Login(string username, string password)
+    {
+        Credential credential = await db.Credentials.FirstOrDefaultAsync(s=>s.Username == username && s.PasswordHash == password);
+
+        return Ok(credential);
+    }
+
+    [HttpPost("auth/profile")]
+    public ActionResult<EmployeeDTO> Profile(int id)
+    {
+        Employee employee = db.Employees.FirstOrDefault(x => x.Id == id);
+        return Ok( new EmployeeDTO()
+            {
+                Id = employee.Id, FirstName = employee.FirstName, LastName = employee.LastName,
+                Position = employee.Position,
+                Role = db.Credentials.FirstOrDefault(x => x.EmployeeId == employee.Id).Role
+            }
+        );
     }
 }
