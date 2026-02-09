@@ -27,12 +27,24 @@ public class AuthController : Controller
     public ActionResult<EmployeeDTO> Profile(int id)
     {
         Employee employee = db.Employees.FirstOrDefault(x => x.Id == id);
-        return Ok( new EmployeeDTO()
+        return Ok( new EmplRoleDTO()
             {
-                Id = employee.Id, FirstName = employee.FirstName, LastName = employee.LastName,
-                Position = employee.Position,
-                Role = db.Credentials.FirstOrDefault(x => x.EmployeeId == employee.Id).Role
+                EmployeeDto = new EmployeeDTO
+                {
+                    Id = employee.Id,
+                    FirstName = employee.FirstName,
+                    LastName = employee.LastName,
+                    Position = employee.Position,
+                },
+                RoleDto = new RoleDTO()
+                {
+                    Title = db.Credentials.FirstOrDefault(x => x.EmployeeId == employee.Id).Role.Title,
+                }
             }
         );
     }
+    
+    
+    
+    
 }

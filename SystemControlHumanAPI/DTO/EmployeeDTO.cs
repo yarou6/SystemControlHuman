@@ -15,6 +15,4 @@ public class EmployeeDTO
     public DateTime HireDate { get; set; }
     
     public bool IsActive { get; set; }
-    
-    public Role? Role { get; set; }
 }
