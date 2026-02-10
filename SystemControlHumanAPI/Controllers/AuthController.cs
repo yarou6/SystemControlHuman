@@ -5,7 +5,7 @@ using SystemControlHumanAPI.DTO;
 
 namespace SystemControlHumanAPI.Controllers;
 
-[Route("api/auth/[controller]")]
+[Route("api/[controller]")]
 public class AuthController : Controller
 {
     public SystemControlContext db { get; set; }
@@ -15,7 +15,7 @@ public class AuthController : Controller
         this.db = db;
     }
 
-    [HttpPost("auth/login")]
+    [HttpPost("login")]
     public async Task<ActionResult> Login(string username, string password)
     {
         Credential credential = await db.Credentials.FirstOrDefaultAsync(s=>s.Username == username && s.PasswordHash == password);
@@ -23,7 +23,7 @@ public class AuthController : Controller
         return Ok(credential);
     }
 
-    [HttpPost("auth/profile")]
+    [HttpPost("profile")]
     public ActionResult<EmployeeDTO> Profile(int id)
     {
         Employee employee = db.Employees.FirstOrDefault(x => x.Id == id);
