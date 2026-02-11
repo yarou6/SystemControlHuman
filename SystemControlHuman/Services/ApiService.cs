@@ -4,6 +4,7 @@ using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
+using System.Text.Json;
 using System.Threading.Tasks;
 using SystemControlHuman.Models.Auth;
 using SystemControlHuman.Models.Employees;
@@ -50,6 +51,7 @@ public class ApiService
 
         response.EnsureSuccessStatusCode();
         return await response.Content.ReadFromJsonAsync<T>();
+    
     }
 
     private async Task HandleResponse(HttpResponseMessage response)
@@ -81,6 +83,8 @@ public class ApiService
     {
         ApplyAuth();
         var response = await http.PostAsync("api/auth/profile", null);
+        string jsonContent = await response.Content.ReadAsStringAsync();
+        Console.WriteLine("Полученный JSON: " + jsonContent);
         return await HandleResponse<EmployeeWithRoleDto>(response);
     }
 
@@ -89,6 +93,7 @@ public class ApiService
     {
         ApplyAuth();
         var response = await http.GetAsync("api/employees");
+        
         return await HandleResponse<List<EmployeeWithRoleDto>>(response);
     }
 

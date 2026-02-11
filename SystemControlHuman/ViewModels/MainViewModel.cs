@@ -1,4 +1,7 @@
-﻿using SystemControlHuman.Services;
+﻿using System;
+using System.Threading.Tasks;
+using Avalonia.Threading;
+using SystemControlHuman.Services;
 using SystemControlHuman.Tools;
 using SystemControlHuman.Models.Employees;
 using SystemControlHuman.Models.Auth;     
@@ -14,8 +17,19 @@ public class MainViewModel : BaseVM
     public EmployeesViewModel EmployeesView { get; }
     public ShiftsViewModel ShiftsView { get; }
 
-    public string CurrentUser { get; private set; } = "";
-    public string CurrentRole { get; private set; } = "";
+    private string _currentUser = "";
+    public string CurrentUser
+    {
+        get => _currentUser;
+        private set => SetField(ref _currentUser, value);
+    }
+
+    private string _currentRole = "";
+    public string CurrentRole
+    {
+        get => _currentRole;
+        private set => SetField(ref _currentRole, value);
+    }
 
     public RelayCommand LogoutCommand { get; }
 
@@ -29,21 +43,44 @@ public class MainViewModel : BaseVM
 
         LogoutCommand = new RelayCommand(Logout);
 
-        LoadProfile();
+        LoadProfile().ContinueWith(task =>
+        {
+            if (task.Exception != null)
+            {
+                Console.WriteLine("Ошибка при загрузке профиля: " + task.Exception);
+            }
+        });
     }
 
-    private async void LoadProfile()
+    private async Task LoadProfile()
     {
         try
         {
             var profile = await api.GetProfileAsync();
-            CurrentUser = profile.Employee.FirstName + " " + profile.Employee.LastName;
-            CurrentRole = profile.Role.Title;
+
+            if (profile == null)
+            {
+                Console.WriteLine("profile = null");
+            }
+            else
+            {
+                Console.WriteLine($"Profile: {profile.Employee.FirstName} {profile.Employee.LastName}, Role: {profile.Role.Title}");
+            }
+
+            await Dispatcher.UIThread.InvokeAsync(() =>
+            {
+                CurrentUser = profile?.Employee?.FirstName + " " + profile?.Employee?.LastName ?? "Нет данных";
+                CurrentRole = profile?.Role?.Title ?? "Нет данных";
+            });
         }
-        catch
+        catch (Exception ex)
         {
-            CurrentUser = "Ошибка";
-            CurrentRole = "Ошибка";
+            Console.WriteLine("Исключение при загрузке профиля: " + ex);
+            await Dispatcher.UIThread.InvokeAsync(() =>
+            {
+                CurrentUser = "Ошибка";
+                CurrentRole = "Ошибка";
+            });
         }
     }
 

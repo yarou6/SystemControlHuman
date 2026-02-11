@@ -3,6 +3,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vm="clr-namespace:SystemControlHuman.ViewModels"
+        xmlns:views="clr-namespace:SystemControlHuman.Views"
         mc:Ignorable="d"
         x:Class="SystemControlHuman.Views.MainWindow"
         Title="Система управления"
@@ -17,14 +18,24 @@
                         <Button Content="Выйти" Command="{Binding LogoutCommand}" HorizontalAlignment="Right"/>
                 </StackPanel>
 
-                <TabControl SelectedIndex="0">
-                        <TabItem Header="Сотрудники">
-                                <ContentControl Content="{Binding EmployeesView}"/>
-                        </TabItem>
-                        <TabItem Header="Смены">
-                                <ContentControl Content="{Binding ShiftsView}"/>
-                        </TabItem>
-                </TabControl>
+                <TabItem Header="Сотрудники">
+                        <ListBox Items="{Binding EmployeesView.Employees}" 
+                                 SelectedItem="{Binding EmployeesView.SelectedEmployee}">
+                                <ListBox.ItemTemplate>
+                                        <DataTemplate>
+                                                <TextBlock Text="{Binding LastName}" />
+                                        </DataTemplate>
+                                </ListBox.ItemTemplate>
+                        </ListBox>
+                </TabItem>
+
+                <TabItem Header="Сотрудники">
+                        <views:EmployeesWindow DataContext="{Binding EmployeesView}" />
+                </TabItem>
+                <TabItem Header="Смены">
+                        <views:ShiftWindow DataContext="{Binding ShiftsView}" />
+                </TabItem>
+
         </DockPanel>
         
 </Window>
