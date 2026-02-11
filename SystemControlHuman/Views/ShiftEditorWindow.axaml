@@ -13,7 +13,7 @@
     <StackPanel Margin="20" Spacing="10">
 
         <TextBlock Text="Сотрудник:"/>
-        <ComboBox Items="{Binding Employees}" SelectedItem="{Binding Shift.EmployeeId}">
+        <ComboBox ItemsSource="{Binding Employees}" SelectedItem="{Binding Shift.EmployeeId}">
             <ComboBox.ItemTemplate>
                 <DataTemplate x:DataType="employees:EmployeeDto">
                     <TextBlock Text="{Binding FullName}" />

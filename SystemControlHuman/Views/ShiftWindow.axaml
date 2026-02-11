@@ -18,7 +18,7 @@
                         <Button Content="Удалить" Command="{Binding DeleteShiftCommand}" 
                                 IsEnabled="{Binding SelectedShift}" />
 
-                        <ComboBox Items="{Binding Employees}" SelectedItem="{Binding FilterEmployee}">
+                        <ComboBox ItemsSource="{Binding Employees}" SelectedItem="{Binding FilterEmployee}">
                                 <ComboBox.ItemTemplate>
                                         <DataTemplate x:DataType="employees:EmployeeDto">
                                                 <TextBlock Text="{Binding FullName}" />

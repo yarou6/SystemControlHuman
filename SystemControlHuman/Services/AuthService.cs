@@ -12,9 +12,8 @@ public class AuthService
     private readonly string filePath;
 
     public string? Token { get; private set; }
-
     public bool IsAuthorized => !string.IsNullOrEmpty(Token);
-
+    public event Action? OnTokenChanged; 
     public AuthService()
     {
         var dir = Path.Combine(
@@ -28,7 +27,7 @@ public class AuthService
     public async Task SaveTokenAsync(string token, bool remember)
     {
         Token = token;
-
+        OnTokenChanged?.Invoke(); 
         if (!remember)
             return;
 
@@ -43,6 +42,7 @@ public class AuthService
 
         var encrypted = await File.ReadAllBytesAsync(filePath);
         Token = Decrypt(encrypted);
+        OnTokenChanged?.Invoke();
     }
 
     public Task ClearTokenAsync()

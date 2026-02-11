@@ -68,9 +68,9 @@ public class LoginViewModel : BaseVM
         {
             ErrorMessage = "Неверный логин или пароль";
         }
-        catch (Exception)
+        catch (Exception e)
         {
-            ErrorMessage = "Ошибка сети или сервера";
+            ErrorMessage = $"Ошибка сети или сервера{e.Message}";
         }
     }
 }

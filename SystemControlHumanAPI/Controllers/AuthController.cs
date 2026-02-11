@@ -1,5 +1,6 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -8,7 +9,6 @@ using SystemControlHumanAPI.DTO;
 using SystemControlHumanAPI.Tools;
 
 namespace SystemControlHumanAPI.Controllers;
-
 [Route("api/[controller]")]
 public class AuthController : Controller
 {
@@ -59,7 +59,9 @@ public class AuthController : Controller
             ExpiresIn = expirensIn
         });
     }
-
+  
+    
+    [Authorize]
     [HttpPost("profile")]
     public async Task<ActionResult<EmplRoleDTO>> Profile()
     {
@@ -82,7 +84,7 @@ public class AuthController : Controller
             RoleDto = new RoleDTO
             {
                 Title = employee.Credentials.Last().Role.Title
-            }
+            },
         });
     }
 }
