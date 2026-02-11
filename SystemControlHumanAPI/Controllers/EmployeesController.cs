@@ -73,7 +73,7 @@ public class EmployeesController : Controller
         if (await db.Credentials.FirstOrDefaultAsync(x => x.Username == employeeCred.Credential.Username) != null)
             return BadRequest("Username already exists");
         
-        Employee Employee = new Employee
+        Employee employee = new Employee
         {
             FirstName = employeeCred.Employee.FirstName,
             LastName = employeeCred.Employee.LastName,
@@ -81,26 +81,26 @@ public class EmployeesController : Controller
             HireDate = employeeCred.Employee.HireDate,
             IsActive = employeeCred.Employee.IsActive,
         }; 
-        db.Employees.Add(Employee);
+        db.Employees.Add(employee);
         await db.SaveChangesAsync();
         
-        Credential Credential = new Credential
+        Credential credential = new Credential
         {
             Username = employeeCred.Credential.Username,
             PasswordHash = BCrypt.Net.BCrypt.HashPassword(employeeCred.Credential.PasswordHash),
             RoleId = employeeCred.Credential.RoleId,
-            EmployeeId = Employee.Id,
+            EmployeeId = employee.Id,
         };
-        db.Credentials.Add(Credential);
+        db.Credentials.Add(credential);
         await db.SaveChangesAsync();
         
         CredentialDTO credentialDto = new CredentialDTO()
         {
-            Id =  Credential.Id,
-            Username = Credential.Username,
-            PasswordHash = Credential.PasswordHash,
-            RoleId = Credential.RoleId,
-            EmployeeId = Credential.EmployeeId,
+            Id =  credential.Id,
+            Username = credential.Username,
+            PasswordHash = credential.PasswordHash,
+            RoleId = credential.RoleId,
+            EmployeeId = credential.EmployeeId,
         };
         
         return Created($"", credentialDto);
