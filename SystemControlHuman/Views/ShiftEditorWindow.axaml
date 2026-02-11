@@ -1,0 +1,39 @@
+﻿<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="clr-namespace:SystemControlHuman.ViewModels"
+        xmlns:employees="clr-namespace:SystemControlHuman.Models.Employees"
+        mc:Ignorable="d"
+        x:Class="SystemControlHuman.Views.ShiftEditorWindow"
+        Title="Редактор смены"
+        Width="400" Height="400"
+        x:DataType="vm:ShiftEditorViewModel">
+
+    <StackPanel Margin="20" Spacing="10">
+
+        <TextBlock Text="Сотрудник:"/>
+        <ComboBox Items="{Binding Employees}" SelectedItem="{Binding Shift.EmployeeId}">
+            <ComboBox.ItemTemplate>
+                <DataTemplate x:DataType="employees:EmployeeDto">
+                    <TextBlock Text="{Binding FullName}" />
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+
+        <TextBlock Text="Дата начала:"/>
+        <DatePicker SelectedDate="{Binding Shift.StartDateTime}"/>
+        <TextBlock Text="Время начала (HH:mm):"/>
+        <TextBox Text="{Binding Shift.StartDateTime, StringFormat=HH:mm}"/>
+
+        <TextBlock Text="Дата окончания:"/>
+        <DatePicker SelectedDate="{Binding Shift.EndDateTime}"/>
+        <TextBlock Text="Время окончания (HH:mm):"/>
+        <TextBox Text="{Binding Shift.EndDateTime, StringFormat=HH:mm}"/>
+
+        <TextBlock Text="Описание:"/>
+        <TextBox Text="{Binding Shift.Description}" AcceptsReturn="True" Height="60"/>
+
+        <Button Content="Сохранить" Command="{Binding SaveCommand}" HorizontalAlignment="Center"/>
+    </StackPanel>
+</Window>

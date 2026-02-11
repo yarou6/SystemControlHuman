@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SystemControlHumanAPI.DB;
 using SystemControlHumanAPI.DTO;
+using BCrypt.Net;
 
 namespace SystemControlHumanAPI.Controllers;
 
@@ -16,10 +17,12 @@ public class EmployeesController : Controller
     }
     
     [HttpGet("")]
-    public ActionResult<List<EmployeeDTO>> Employees()
+    public async Task<ActionResult<List<EmplRoleDTO>>> Employees()
     {
+        var employees = await db.Employees.Include(s => s.Credentials).ThenInclude(s => s.Role).ToListAsync();
+
         List<EmplRoleDTO> list = new List<EmplRoleDTO>();
-        foreach (Employee employee in db.Employees.Include(s=>s.Credentials).ThenInclude(s=>s.Role))
+        foreach (Employee employee in employees)
         {
             list.Add(new EmplRoleDTO()
             {
@@ -42,9 +45,9 @@ public class EmployeesController : Controller
     }
     
     [HttpGet("{id}")]
-    public ActionResult<EmplRoleDTO> EmployeeOnId(int id)
+    public async Task<ActionResult<EmplRoleDTO>> EmployeeOnId(int id)
     {
-        Employee employee = db.Employees.Include(s=>s.Credentials).ThenInclude(s=>s.Role).FirstOrDefault(x => x.Id == id);
+        Employee employee = await db.Employees.Include(s=>s.Credentials).ThenInclude(s=>s.Role).FirstOrDefaultAsync(x => x.Id == id);
         return Ok(new EmplRoleDTO()
         {
             EmployeeDto = new EmployeeDTO()
@@ -64,10 +67,10 @@ public class EmployeesController : Controller
     }
     
     [HttpPost("")]
-    public ActionResult AddEmployee(CredEmplDTO employeeCred)
+    public  async Task<ActionResult> AddEmployee(CredEmplDTO employeeCred)
     {
         
-        if (db.Credentials.FirstOrDefault(x => x.Username == employeeCred.Credential.Username) != null)
+        if (await db.Credentials.FirstOrDefaultAsync(x => x.Username == employeeCred.Credential.Username) != null)
             return BadRequest("Username already exists");
         
         Employee Employee = new Employee
@@ -77,19 +80,19 @@ public class EmployeesController : Controller
             Position = employeeCred.Employee.Position,
             HireDate = employeeCred.Employee.HireDate,
             IsActive = employeeCred.Employee.IsActive,
-        };
+        }; 
         db.Employees.Add(Employee);
-        db.SaveChanges();
+        await db.SaveChangesAsync();
         
         Credential Credential = new Credential
         {
             Username = employeeCred.Credential.Username,
-            PasswordHash = employeeCred.Credential.PasswordHash,
+            PasswordHash = BCrypt.Net.BCrypt.HashPassword(employeeCred.Credential.PasswordHash),
             RoleId = employeeCred.Credential.RoleId,
             EmployeeId = Employee.Id,
         };
         db.Credentials.Add(Credential);
-        db.SaveChanges();
+        await db.SaveChangesAsync();
         
         CredentialDTO credentialDto = new CredentialDTO()
         {
@@ -104,9 +107,9 @@ public class EmployeesController : Controller
     }
     
     [HttpPut("{id}")]
-    public ActionResult UpdateEmployee(int id,  [FromBody]EmployeeDTO employeeDTO)
+    public  async Task<ActionResult> UpdateEmployee(int id,  [FromBody]EmployeeDTO employeeDTO)
     {
-        Employee employee = db.Employees.FirstOrDefault(x => x.Id == id);
+        Employee employee = await db.Employees.FirstOrDefaultAsync(x => x.Id == id);
         // Employee employee = db.Employees.FirstOrDefault(x => x.Id ==  employeeDTO.Id);
         employee.FirstName = employeeDTO.FirstName;
         employee.LastName = employeeDTO.LastName;
@@ -114,24 +117,25 @@ public class EmployeesController : Controller
         employee.HireDate = employeeDTO.HireDate;
         employee.IsActive = employeeDTO.IsActive;
 
-        db.SaveChanges();
+        await db.SaveChangesAsync();
         return Ok();
     } 
     
     
     [HttpDelete("{id}")]
-    public ActionResult DeleteEmployee(int id)
+    public async Task<ActionResult> DeleteEmployee(int id)
     {
         try
-        {
-            db.Employees.Remove(db.Employees.First(x => x.Id == id));
+        { 
+            Employee employee = await db.Employees.FirstOrDefaultAsync(x => x.Id == id);
+            db.Employees.Remove(employee);
         }
         catch (Exception e)
         {
             Console.WriteLine(e);
             throw;
         }
-        db.SaveChanges();
+        await db.SaveChangesAsync();
         return NoContent();
     }
 }

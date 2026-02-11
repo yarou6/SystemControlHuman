@@ -3,11 +3,11 @@ using SystemControlHuman.ViewModels;
 
 namespace SystemControlHuman.Views;
 
-public partial class MainWindow : Window
+public partial class EmployeesWindow : Window
 {
-    public MainWindow(ApiService api, AuthService auth)
+    public EmployeesWindow(ApiService api)
     {
         InitializeComponent();
-        DataContext = new MainViewModel(api, auth);
+        DataContext = new EmployeesViewModel(api);
     }
 }

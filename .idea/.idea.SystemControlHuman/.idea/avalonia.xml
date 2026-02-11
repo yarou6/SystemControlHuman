@@ -4,7 +4,15 @@
     <option name="projectPerEditor">
       <map>
         <entry key="SystemControlHuman/App.axaml" value="SystemControlHuman/SystemControlHuman.csproj" />
+        <entry key="SystemControlHuman/PasswordBox.axaml" value="SystemControlHuman/SystemControlHuman.csproj" />
+        <entry key="SystemControlHuman/ShiftsView.axaml" value="SystemControlHuman/SystemControlHuman.csproj" />
+        <entry key="SystemControlHuman/Views/EmployeeEditorViewModel.axaml" value="SystemControlHuman/SystemControlHuman.csproj" />
+        <entry key="SystemControlHuman/Views/EmployeesView.axaml" value="SystemControlHuman/SystemControlHuman.csproj" />
+        <entry key="SystemControlHuman/Views/LoginWindow.axaml" value="SystemControlHuman/SystemControlHuman.csproj" />
+        <entry key="SystemControlHuman/Views/Loginwindow.axaml" value="SystemControlHuman/SystemControlHuman.csproj" />
         <entry key="SystemControlHuman/Views/MainWindow.axaml" value="SystemControlHuman/SystemControlHuman.csproj" />
+        <entry key="SystemControlHuman/Views/ShiftEditorViewModel.axaml" value="SystemControlHuman/SystemControlHuman.csproj" />
+        <entry key="SystemControlHuman/Views/ShiftView.axaml" value="SystemControlHuman/SystemControlHuman.csproj" />
       </map>
     </option>
   </component>

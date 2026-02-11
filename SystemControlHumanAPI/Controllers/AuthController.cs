@@ -1,7 +1,11 @@
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using SystemControlHumanAPI.DB;
 using SystemControlHumanAPI.DTO;
+using SystemControlHumanAPI.Tools;
 
 namespace SystemControlHumanAPI.Controllers;
 
@@ -16,35 +20,69 @@ public class AuthController : Controller
     }
 
     [HttpPost("login")]
-    public async Task<ActionResult> Login(string username, string password)
+    public async Task<ActionResult<LoginResponseDTO>> Login([FromBody]LoginRequestDTO request)
     {
-        Credential credential = await db.Credentials.FirstOrDefaultAsync(s=>s.Username == username && s.PasswordHash == password);
+        var credential = await db.Credentials.Include(x=> x.Role).FirstOrDefaultAsync(c=> c.Username == request.Username);
+        if (credential == null)
+            return Unauthorized();
+        
+        bool isValidPassword = BCrypt.Net.BCrypt.Verify(
+            request.Password,
+            credential.PasswordHash
+        );
 
-        return Ok(credential);
+        if (!isValidPassword)
+            return Unauthorized();
+
+        var claims = new[]
+        {
+            new Claim(ClaimTypes.Name, credential.Username),
+            new Claim(ClaimTypes.Role, credential.Role.Title),
+            new Claim("EmployeeId", credential.EmployeeId.ToString()),
+        };
+
+        var key = JwtSettings.GetSymmetricSecurityKey();
+        var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+
+        var expirensIn = 3600;
+
+        var toker = new JwtSecurityToken(
+            issuer: JwtSettings.ISSUER,
+            audience: JwtSettings.AUDIENCE,
+            claims: claims,
+            expires: DateTime.UtcNow.AddSeconds(expirensIn),
+            signingCredentials: creds
+        );
+        return Ok(new LoginResponseDTO()
+        {
+            Token = new JwtSecurityTokenHandler().WriteToken(toker),
+            ExpiresIn = expirensIn
+        });
     }
 
     [HttpPost("profile")]
-    public ActionResult<EmployeeDTO> Profile(int id)
+    public async Task<ActionResult<EmplRoleDTO>> Profile()
     {
-        Employee employee = db.Employees.FirstOrDefault(x => x.Id == id);
-        return Ok( new EmplRoleDTO()
+        var employeeId = int.Parse(User.FindFirst("EmployeeId")!.Value);
+
+        var employee = await db.Employees.Include(e => e.Credentials).ThenInclude(c => c.Role).FirstOrDefaultAsync(e => e.Id == employeeId);
+
+        if (employee == null)
+            return NotFound();
+
+        return Ok(new EmplRoleDTO
+        {
+            EmployeeDto = new EmployeeDTO
             {
-                EmployeeDto = new EmployeeDTO
-                {
-                    Id = employee.Id,
-                    FirstName = employee.FirstName,
-                    LastName = employee.LastName,
-                    Position = employee.Position,
-                },
-                RoleDto = new RoleDTO()
-                {
-                    Title = db.Credentials.FirstOrDefault(x => x.EmployeeId == employee.Id).Role.Title,
-                }
+                Id = employee.Id,
+                FirstName = employee.FirstName,
+                LastName = employee.LastName,
+                Position = employee.Position,
+            },
+            RoleDto = new RoleDTO
+            {
+                Title = employee.Credentials.Last().Role.Title
             }
-        );
+        });
     }
-    
-    
-    
-    
 }
