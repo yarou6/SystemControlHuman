@@ -3,39 +3,98 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vm="clr-namespace:SystemControlHuman.ViewModels"
+        xmlns:shiftModels="clr-namespace:SystemControlHuman.Models.Shifts"
+        xmlns:emplModels="clr-namespace:SystemControlHuman.Models.Employees"
         xmlns:views="clr-namespace:SystemControlHuman.Views"
         mc:Ignorable="d"
-        x:Class="SystemControlHuman.Views.MainWindow"
         Title="Система управления"
         Width="800" Height="600"
+        x:Class="SystemControlHuman.Views.MainWindow"
         x:DataType="vm:MainViewModel">
-        <DockPanel>
-                <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" Margin="5" Spacing="10">
-                        <TextBlock Text="Пользователь: "/>
-                        <TextBlock Text="{Binding CurrentUser}"/>
-                        <TextBlock Text="Роль: "/>
-                        <TextBlock Text="{Binding CurrentRole}"/>
-                        <Button Content="Выйти" Command="{Binding LogoutCommand}" HorizontalAlignment="Right"/>
-                </StackPanel>
+    <DockPanel>
 
-                <TabItem Header="Сотрудники">
-                        <ListBox Items="{Binding EmployeesView.Employees}" 
-                                 SelectedItem="{Binding EmployeesView.SelectedEmployee}">
-                                <ListBox.ItemTemplate>
-                                        <DataTemplate>
-                                                <TextBlock Text="{Binding LastName}" />
-                                        </DataTemplate>
-                                </ListBox.ItemTemplate>
-                        </ListBox>
-                </TabItem>
+        <Border DockPanel.Dock="Bottom" Background="#EEE" Padding="8">
 
-                <TabItem Header="Сотрудники">
-                        <views:EmployeesWindow DataContext="{Binding EmployeesView}" />
-                </TabItem>
-                <TabItem Header="Смены">
-                        <views:ShiftWindow DataContext="{Binding ShiftsView}" />
-                </TabItem>
+            <Grid ColumnDefinitions="Auto,Auto,Auto,Auto,*,Auto">
+                <TextBlock Text="Пользователь:" Margin="0,0,5,0"/>
+                <TextBlock Text="{Binding CurrentUser}" Margin="0,0,15,0"/>
 
-        </DockPanel>
-        
+                <TextBlock Grid.Column="2" Text="Роль:" Margin="0,0,5,0"/>
+                <TextBlock Grid.Column="3" Text="{Binding CurrentRole}"/>
+
+                <Button Grid.Column="5" Content="Выйти" Command="{Binding LogoutCommand}" HorizontalAlignment="Right"/>
+            </Grid>
+        </Border>
+  
+        <TabControl>
+
+            <TabItem Header="Сотрудники">
+                <DockPanel Margin="10">
+
+                    <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Spacing="10" Margin="0,0,0,10">
+
+                        <Button Content="Добавить"
+                                Command="{Binding EmployeesView.AddEmployeeCommand}" />
+
+                        <Button Content="Редактировать"
+                                Command="{Binding EmployeesView.EditEmployeeCommand}" />
+
+                        <Button Content="Удалить"
+                                Command="{Binding EmployeesView.DeleteEmployeeCommand}" />
+
+                    </StackPanel>
+
+                    <ListBox ItemsSource="{Binding EmployeesView.Employees}" SelectedItem="{Binding EmployeesView.SelectedEmployee}">
+
+                        <ListBox.ItemTemplate>
+                            <DataTemplate x:DataType="emplModels:EmployeeDto">
+                                <StackPanel>
+                                    <TextBlock Text="{Binding FullName}" FontWeight="Bold"/>
+                                    <TextBlock Text="{Binding Position}" FontSize="12"/>
+                                    <TextBlock Text="{Binding Status}" FontSize="12"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+
+                    </ListBox>
+                    
+                    <Button Content="Открыть окно сотрудников" Click="OpenEmployeesWindow"/>
+
+                </DockPanel>
+            </TabItem>
+
+            <TabItem Header="Смены">
+                <DockPanel Margin="10">
+
+                    <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Spacing="10" Margin="0,0,0,10">
+                        <Button Content="Добавить"
+                                Command="{Binding ShiftsView.AddShiftCommand}" />
+
+                        <Button Content="Редактировать"
+                                Command="{Binding ShiftsView.EditShiftCommand}" />
+
+                        <Button Content="Удалить"
+                                Command="{Binding ShiftsView.DeleteShiftCommand}" />
+                    </StackPanel>
+
+                    <ListBox ItemsSource="{Binding ShiftsView.Shifts}"
+                             SelectedItem="{Binding ShiftsView.SelectedShift}">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate x:DataType="shiftModels:ShiftDto">
+                                <StackPanel>
+                                    <TextBlock Text="{Binding TimeRange}" FontWeight="Bold"/>
+                                    <TextBlock Text="{Binding Description}" FontSize="12"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                
+                    <Button Content="Открыть окно сотрудников" Click="OpenShiftWindow"/>
+
+                </DockPanel>
+            </TabItem>
+
+        </TabControl>
+
+    </DockPanel>
 </Window>

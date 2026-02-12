@@ -6,15 +6,10 @@ namespace SystemControlHuman.Views;
 
 public partial class ShiftWindow : Window
 {
-    public ShiftWindow(ApiService api)
+    public ShiftWindow(ShiftsViewModel vm)
     {
         InitializeComponent();
-        DataContext = new ShiftsViewModel(api);
+        DataContext = vm;
     }
 
-    public ShiftWindow(ApiService api, ShiftDto shift)
-    {
-        InitializeComponent();
-        DataContext = new ShiftsViewModel(api) { SelectedShift = shift };
-    }
 }

@@ -1,14 +1,13 @@
 ﻿<Window xmlns="https://github.com/avaloniaui"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:vm="clr-namespace:SystemControlHuman.ViewModels"
-        xmlns:employees="clr-namespace:SystemControlHuman.Models.Employees"
-        mc:Ignorable="d"
-        x:Class="SystemControlHuman.Views.ShiftEditorWindow"
-        Title="Редактор смены"
-        Width="400" Height="400"
-        x:DataType="vm:ShiftEditorViewModel">
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:SystemControlHuman.ViewModels"
+             xmlns:employees="clr-namespace:SystemControlHuman.Models.Employees"
+             mc:Ignorable="d"
+             x:Class="SystemControlHuman.Views.ShiftEditorWindow"
+             Width="400" Height="400"
+             x:DataType="vm:ShiftEditorViewModel">
 
     <StackPanel Margin="20" Spacing="10">
 

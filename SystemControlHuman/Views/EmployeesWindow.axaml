@@ -3,7 +3,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d"
         xmlns:vm="clr-namespace:SystemControlHuman.ViewModels"
         xmlns:employees="clr-namespace:SystemControlHuman.Models.Employees"
-        x:Class="SystemControlHuman.Views.EmployeesWindow" Title="EmployeesView" Width="800" Height="450"
+        x:Class="SystemControlHuman.Views.EmployeesWindow" 
         x:DataType="vm:EmployeesViewModel">
     <DockPanel Margin="10">
         <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Spacing="10">

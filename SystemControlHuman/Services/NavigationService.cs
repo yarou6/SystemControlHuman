@@ -10,8 +10,13 @@ public class NavigationService
     {
         if (Application.Current.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
-            desktop.MainWindow = new MainWindow(api, auth); 
-            desktop.MainWindow.Show();
+            var current = desktop.MainWindow;
+
+            var main = new MainWindow(api, auth);
+            desktop.MainWindow = main;
+            main.Show();
+
+            current?.Close();
         }
     }
 
@@ -19,8 +24,13 @@ public class NavigationService
     {
         if (Application.Current.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
-            desktop.MainWindow = new LoginWindow(api, auth); 
-            desktop.MainWindow.Show();
+            var current = desktop.MainWindow;
+
+            var login = new LoginWindow(api, auth);
+            desktop.MainWindow = login;
+            login.Show();
+
+            current?.Close();
         }
     }
 }

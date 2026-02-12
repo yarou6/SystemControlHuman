@@ -9,6 +9,7 @@
         <entry key="SystemControlHuman/Views/EmployeeEditorViewModel.axaml" value="SystemControlHuman/SystemControlHuman.csproj" />
         <entry key="SystemControlHuman/Views/EmployeeEditorWindow.axaml" value="SystemControlHuman/SystemControlHuman.csproj" />
         <entry key="SystemControlHuman/Views/EmployeesView.axaml" value="SystemControlHuman/SystemControlHuman.csproj" />
+        <entry key="SystemControlHuman/Views/EmployeesWindow.axaml" value="SystemControlHuman/SystemControlHuman.csproj" />
         <entry key="SystemControlHuman/Views/LoginWindow.axaml" value="SystemControlHuman/SystemControlHuman.csproj" />
         <entry key="SystemControlHuman/Views/Loginwindow.axaml" value="SystemControlHuman/SystemControlHuman.csproj" />
         <entry key="SystemControlHuman/Views/MainWindow.axaml" value="SystemControlHuman/SystemControlHuman.csproj" />

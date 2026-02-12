@@ -6,20 +6,72 @@
         mc:Ignorable="d"
         x:Class="SystemControlHuman.Views.LoginWindow"
         Title="Вход"
-        Width="400" Height="300"
+        Width="500" Height="400"
         x:DataType="vm:LoginViewModel">
-        
-        <StackPanel Margin="20" Spacing="10">
-                <TextBlock Text="Логин:"/>
-                <TextBox Text="{Binding Username}"/>
+        <Window.Styles>
 
-                <TextBlock Text="Пароль:"/>
-                <TextBox Text="{Binding Password}"/>
+        <Style Selector="TextBlock">
+            <Setter Property="Foreground" Value="#FFD700"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+        </Style>
 
-                <CheckBox Content="Запомнить сессию" IsChecked="{Binding RememberMe}"/>
+        <Style Selector="TextBox">
+            <Setter Property="Background" Value="#1c1208"/>
+            <Setter Property="Foreground" Value="#FFD700"/>
+            <Setter Property="BorderBrush" Value="#C9A227"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="CornerRadius" Value="6"/>
+            <Setter Property="Padding" Value="8"/>
+        </Style>
 
-                <Button Content="Войти" Command="{Binding LoginCommand}"/>
+        <Style Selector="Button">
+            <Setter Property="Background" Value="#2a1a0f"/>
+            <Setter Property="Foreground" Value="#FFD700"/>
+            <Setter Property="BorderBrush" Value="#C9A227"/>
+            <Setter Property="BorderThickness" Value="3"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="CornerRadius" Value="8"/>
+            <Setter Property="Padding" Value="10"/>
+            <Setter Property="Width" Value="200"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+        </Style>
 
-                <TextBlock Text="{Binding ErrorMessage}" Foreground="Red"/>
+            <Style Selector="Button:pointerover">
+                <Setter Property="Background" Value="#4a2f14"/>
+                <Setter Property="Effect">
+                    <DropShadowEffect BlurRadius="15" Color="#FFD700" Opacity="0.8"/>
+                </Setter>
+            </Style>
+
+        <Style Selector="Button:pressed">
+            <Setter Property="Background" Value="#1a0f07"/>
+        </Style>
+
+        <Style Selector="CheckBox">
+            <Setter Property="Foreground" Value="#FFD700"/>
+        </Style>
+
+    </Window.Styles>
+
+    <Border BorderBrush="#C9A227" BorderThickness="4" CornerRadius="8" Padding="15" Background="#DD1a1208">
+
+        <StackPanel Spacing="12">
+
+            <TextBlock Text="Вход в систему" FontSize="20" HorizontalAlignment="Center"/>
+
+            <TextBlock Text="Логин:"/>
+            <TextBox Text="{Binding Username}"/>
+
+            <TextBlock Text="Пароль:"/>
+            <TextBox Text="{Binding Password}" PasswordChar="*"/>
+
+            <CheckBox Content="Запомнить героя" IsChecked="{Binding RememberMe}"/>
+
+            <Button Content="Войти в Азерот" Command="{Binding LoginCommand}"  Width="180"/>
+
+            <TextBlock Text="{Binding ErrorMessage}" Foreground="Red" HorizontalAlignment="Center"/>
+
         </StackPanel>
+    </Border>
 </Window>

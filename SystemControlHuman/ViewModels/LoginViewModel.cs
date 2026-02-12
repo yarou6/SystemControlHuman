@@ -70,7 +70,7 @@ public class LoginViewModel : BaseVM
         }
         catch (Exception e)
         {
-            ErrorMessage = $"Ошибка сети или сервера{e.Message}";
+            ErrorMessage = e.Message;
         }
     }
 }
