@@ -5,33 +5,44 @@
         xmlns:vm="clr-namespace:SystemControlHuman.ViewModels"
         mc:Ignorable="d"
         x:Class="SystemControlHuman.Views.EmployeeEditorWindow"
-        Title="EmployeeEditorViewModel"
+        Title="{Binding WindowTitle}"
         x:DataType="vm:EmployeeEditorViewModel">
+    <Border BorderBrush="#C9A227" BorderThickness="4" CornerRadius="8" Padding="20" Background="#DD1a1208">
+        <StackPanel Margin="20" Spacing="10">
+            <StackPanel IsVisible="{Binding IsCreateMode}">
 
-    <StackPanel Margin="20" Spacing="10">
-        <TextBlock Text="Фамилия:" /> 
-        <TextBox Text="{Binding Employee.LastName}" /> 
-        <TextBlock Text="Имя:" />
-        <TextBox Text="{Binding Employee.FirstName}" /> 
-        <TextBlock Text="Позиция:" />
-        <TextBox Text="{Binding Employee.Position}" /> 
-        <TextBlock Text="Логин:"/>
-        <TextBox Text="{Binding Credential.Username}" />
-        <TextBlock Text="Пароль:"/>
-        <TextBox Text="{Binding Credential.Password}" />
-        <TextBlock Text="Дата приема:"/>
-        <DatePicker SelectedDate="{Binding Employee.HireDate}" />
-        
-        <CheckBox Content="Активен" IsChecked="{Binding Employee.IsActive}" />
-        <ComboBox ItemsSource="{Binding Roles}"
-                   SelectedItem="{Binding SelectedRole, Mode=TwoWay}">
-            <ComboBox.ItemTemplate>
-                <DataTemplate>
-                    <TextBlock Text="{Binding Title}" />
-                </DataTemplate>
-            </ComboBox.ItemTemplate>
-        </ComboBox>
+                <TextBlock Text="Логин:" />
+                <TextBox Text="{Binding Credential.Username}" />
 
-        <Button Content="Сохранить" Command="{Binding SaveCommand}" HorizontalAlignment="Center" />
-    </StackPanel>
+                <TextBlock Text="Пароль:" />
+                <TextBox Text="{Binding Credential.PasswordHash}" />
+
+                <TextBlock Text="Роль:" />
+                <ComboBox ItemsSource="{Binding Roles}"
+                          SelectedItem="{Binding SelectedRole, Mode=TwoWay}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Title}" />
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+            </StackPanel>
+
+            <TextBlock Text="Фамилия:" />
+            <TextBox Text="{Binding Employee.LastName}" />
+            
+            <TextBlock Text="Имя:" />
+            <TextBox Text="{Binding Employee.FirstName}" />
+            
+            <TextBlock Text="Позиция:" />
+            <TextBox Text="{Binding Employee.Position}" />
+            
+            <TextBlock Text="Дата приема:" />
+            <DatePicker SelectedDate="{Binding Employee.HireDate}" />
+            
+            <CheckBox Content="Работает?" IsChecked="{Binding Employee.IsActive}" />
+
+            <Button Content="Сохранить" Command="{Binding SaveCommand}" HorizontalAlignment="Center" />
+        </StackPanel>
+    </Border>
 </Window>

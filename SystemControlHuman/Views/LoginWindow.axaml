@@ -8,51 +8,6 @@
         Title="Вход"
         Width="500" Height="400"
         x:DataType="vm:LoginViewModel">
-        <Window.Styles>
-
-        <Style Selector="TextBlock">
-            <Setter Property="Foreground" Value="#FFD700"/>
-            <Setter Property="FontSize" Value="16"/>
-            <Setter Property="FontWeight" Value="Bold"/>
-        </Style>
-
-        <Style Selector="TextBox">
-            <Setter Property="Background" Value="#1c1208"/>
-            <Setter Property="Foreground" Value="#FFD700"/>
-            <Setter Property="BorderBrush" Value="#C9A227"/>
-            <Setter Property="BorderThickness" Value="2"/>
-            <Setter Property="CornerRadius" Value="6"/>
-            <Setter Property="Padding" Value="8"/>
-        </Style>
-
-        <Style Selector="Button">
-            <Setter Property="Background" Value="#2a1a0f"/>
-            <Setter Property="Foreground" Value="#FFD700"/>
-            <Setter Property="BorderBrush" Value="#C9A227"/>
-            <Setter Property="BorderThickness" Value="3"/>
-            <Setter Property="FontWeight" Value="Bold"/>
-            <Setter Property="CornerRadius" Value="8"/>
-            <Setter Property="Padding" Value="10"/>
-            <Setter Property="Width" Value="200"/>
-            <Setter Property="HorizontalAlignment" Value="Center"/>
-        </Style>
-
-            <Style Selector="Button:pointerover">
-                <Setter Property="Background" Value="#4a2f14"/>
-                <Setter Property="Effect">
-                    <DropShadowEffect BlurRadius="15" Color="#FFD700" Opacity="0.8"/>
-                </Setter>
-            </Style>
-
-        <Style Selector="Button:pressed">
-            <Setter Property="Background" Value="#1a0f07"/>
-        </Style>
-
-        <Style Selector="CheckBox">
-            <Setter Property="Foreground" Value="#FFD700"/>
-        </Style>
-
-    </Window.Styles>
 
     <Border BorderBrush="#C9A227" BorderThickness="4" CornerRadius="8" Padding="15" Background="#DD1a1208">
 
@@ -66,9 +21,9 @@
             <TextBlock Text="Пароль:"/>
             <TextBox Text="{Binding Password}" PasswordChar="*"/>
 
-            <CheckBox Content="Запомнить героя" IsChecked="{Binding RememberMe}"/>
+            <CheckBox Content="Запомнить" IsChecked="{Binding RememberMe}"/>
 
-            <Button Content="Войти в Азерот" Command="{Binding LoginCommand}"  Width="180"/>
+            <Button Content="Войти" Command="{Binding LoginCommand}"  Width="180" HorizontalAlignment="Center"/>
 
             <TextBlock Text="{Binding ErrorMessage}" Foreground="Red" HorizontalAlignment="Center"/>
 

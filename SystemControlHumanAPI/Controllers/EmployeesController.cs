@@ -111,6 +111,9 @@ public class EmployeesController : Controller
     {
         Employee employee = await db.Employees.FirstOrDefaultAsync(x => x.Id == id);
         // Employee employee = db.Employees.FirstOrDefault(x => x.Id ==  employeeDTO.Id);
+        if (employee == null)
+            return NotFound();
+        
         employee.FirstName = employeeDTO.FirstName;
         employee.LastName = employeeDTO.LastName;
         employee.Position = employeeDTO.Position;

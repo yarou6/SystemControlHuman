@@ -11,7 +11,9 @@ namespace SystemControlHuman.ViewModels;
 public class EmployeeEditorViewModel : BaseVM
 {
     private readonly ApiService api;
-    private readonly bool isEdit;
+    private bool isEdit;
+    public bool IsCreateMode => !isEdit;
+    public string WindowTitle => isEdit ? "Редактирование сотрудника" : "Создание сотрудника";
 
     public EmployeeDto Employee { get; set; }
     public CredentialDto Credential { get; set; } = new CredentialDto();
@@ -45,7 +47,10 @@ public class EmployeeEditorViewModel : BaseVM
 
         SaveCommand = new RelayCommand(async () => await Save());
 
-       _ = LoadRoles(); 
+        if (!isEdit)
+        {
+            _ = LoadRoles();
+        }
     }
 
 
@@ -90,20 +95,6 @@ public class EmployeeEditorViewModel : BaseVM
 
     private async Task Save()
     {
-        if (string.IsNullOrWhiteSpace(Credential.Username) || string.IsNullOrWhiteSpace(Credential.Password))
-        {
-            await ShowError("Имя пользователя и пароль обязательны!");
-            return;
-        }
-
-        if (SelectedRole == null)
-        {
-            await ShowError("Не выбрана роль!");
-            return;
-        }
-
-        Credential.RoleId = SelectedRole.Id;
-
         try
         {
             if (isEdit)
@@ -112,11 +103,27 @@ public class EmployeeEditorViewModel : BaseVM
             }
             else
             {
+                if (string.IsNullOrWhiteSpace(Credential.Username) 
+                    || string.IsNullOrWhiteSpace(Credential.PasswordHash))
+                {
+                    await ShowError("Имя пользователя и пароль обязательны!");
+                    return;
+                }
+
+                if (SelectedRole == null)
+                {
+                    await ShowError("Не выбрана роль!");
+                    return;
+                }
+
+                Credential.RoleId = SelectedRole.Id;
+
                 var dto = new CreateEmployeeDto
                 {
                     Employee = Employee,
                     Credential = Credential
                 };
+
                 await api.CreateEmployeeAsync(dto);
             }
 
@@ -128,10 +135,10 @@ public class EmployeeEditorViewModel : BaseVM
         }
     }
 
+
     private async Task ShowError(string message)
     {
         Console.WriteLine(message);
-        // Здесь можно подключить Avalonia MessageBox или просто вывод в консоль
         await Task.CompletedTask;
     }
 

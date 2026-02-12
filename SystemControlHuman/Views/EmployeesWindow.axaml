@@ -3,44 +3,50 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d"
         xmlns:vm="clr-namespace:SystemControlHuman.ViewModels"
         xmlns:employees="clr-namespace:SystemControlHuman.Models.Employees"
-        x:Class="SystemControlHuman.Views.EmployeesWindow" 
+        x:Class="SystemControlHuman.Views.EmployeesWindow"
         x:DataType="vm:EmployeesViewModel"
         Width="800" Height="600">
-    <DockPanel Margin="10">
-        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Spacing="10">
-            <Button Content="Добавить" Command="{Binding AddEmployeeCommand}" />
-            <Button Content="Редактировать" Command="{Binding EditEmployeeCommand}"
-                    IsEnabled="{Binding SelectedEmployee}" />
-            <Button Content="Удалить" Command="{Binding DeleteEmployeeCommand}" IsEnabled="{Binding SelectedEmployee}" />
-        </StackPanel>
-        <DataGrid ItemsSource="{Binding Employees}" SelectedItem="{Binding SelectedEmployee}" AutoGenerateColumns="False"
-                  CanUserResizeColumns="True" Margin="0,10,0,0">
-            <DataGrid.Columns>
-                <DataGridTemplateColumn Header="ФИО">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate x:DataType="employees:EmployeeDto">
-                            <TextBlock Text="{Binding FullName}" />
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-
-                <DataGridTemplateColumn Header="Должность">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate x:DataType="employees:EmployeeDto">
-                            <TextBlock Text="{Binding Position}" />
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-
-                <DataGridTemplateColumn Header="Статус">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate x:DataType="employees:EmployeeDto">
-                            <TextBlock Text="{Binding Status}" />
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
+    <Border BorderBrush="#C9A227" BorderThickness="4" CornerRadius="8" Padding="15" Background="#DD1a1208">
+                   <DockPanel Margin="10">
+            <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Spacing="10">
+                <Button Content="Добавить" Command="{Binding AddEmployeeCommand}" />
+                <Button Content="Редактировать" Command="{Binding EditEmployeeCommand}"
+                        IsEnabled="{Binding SelectedEmployee}" />
+                <Button Content="Удалить" Command="{Binding DeleteEmployeeCommand}"
+                        IsEnabled="{Binding SelectedEmployee}" />
+            </StackPanel>
+                       
+            <DataGrid ItemsSource="{Binding Employees}" SelectedItem="{Binding SelectedEmployee}"
+                      AutoGenerateColumns="False"
+                      CanUserResizeColumns="True" Margin="0,10,0,0">
                 
-            </DataGrid.Columns>
-        </DataGrid>
-    </DockPanel>
+                <DataGrid.Columns>
+                    <DataGridTemplateColumn Header="ФИО">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate x:DataType="employees:EmployeeDto">
+                                <TextBlock Text="{Binding FullName}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                    <DataGridTemplateColumn Header="Должность">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate x:DataType="employees:EmployeeDto">
+                                <TextBlock Text="{Binding Position}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                    <DataGridTemplateColumn Header="Статус">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate x:DataType="employees:EmployeeDto">
+                                <TextBlock Text="{Binding Status}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                </DataGrid.Columns>
+            </DataGrid>
+        </DockPanel>
+    </Border>
 </Window>

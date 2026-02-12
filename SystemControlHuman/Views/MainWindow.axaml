@@ -10,76 +10,64 @@
         Width="800" Height="600"
         x:Class="SystemControlHuman.Views.MainWindow"
         x:DataType="vm:MainViewModel">
-    <DockPanel>
 
-        <Border DockPanel.Dock="Bottom" Background="#EEE" Padding="8">
+    <Border BorderBrush="#C9A227" BorderThickness="4" CornerRadius="8" Padding="15" Background="#DD1a1208">
+        <DockPanel>
 
-            <Grid ColumnDefinitions="Auto,Auto,Auto,Auto,*,Auto">
-                <TextBlock Grid.Column="0" Text="Пользователь:" Margin="0,0,5,0"/>
-                <TextBlock Grid.Column="1" Text="{Binding CurrentUser}" Margin="0,0,15,0"/>
+            <Border DockPanel.Dock="Bottom" Background="#EEE" Padding="8">
+                <Grid ColumnDefinitions="Auto,Auto,Auto,Auto,*,Auto">
+                    <TextBlock Grid.Column="0" Text="Пользователь:" Margin="0,0,5,0" />
+                    <TextBlock Grid.Column="1" Text="{Binding CurrentUser}" Margin="0,0,15,0" />
 
-                <TextBlock Grid.Column="2" Text="Роль:" Margin="0,0,5,0"/>
-                <TextBlock Grid.Column="3" Text="{Binding CurrentRole}"/>
+                    <TextBlock Grid.Column="2" Text="Роль:" Margin="0,0,5,0" />
+                    <TextBlock Grid.Column="3" Text="{Binding CurrentRole}" />
 
-                <Button Grid.Column="5" Content="Выйти" Command="{Binding LogoutCommand}" HorizontalAlignment="Right"/>
-            </Grid>
-        </Border>
-  
-        <TabControl>
+                    <Button Grid.Column="5" Content="Выйти" Command="{Binding LogoutCommand}"
+                            HorizontalAlignment="Right" />
+                </Grid>
+            </Border>
 
-            <TabItem Header="Сотрудники">
-                <DockPanel Margin="10">
+            <TabControl>
+                <TabItem Header="Сотрудники">
+                    <DockPanel Margin="10">
+                        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Spacing="10" Margin="0,0,0,10">
+                            <Button Content="Открыть окно сотрудников" Click="OpenEmployeesWindow" />
+                        </StackPanel>
+                        <ListBox ItemsSource="{Binding EmployeesView.Employees}"
+                                 SelectedItem="{Binding EmployeesView.SelectedEmployee}">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate x:DataType="emplModels:EmployeeDto">
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding FullName}" FontWeight="Bold" />
+                                        <TextBlock Text="{Binding Position}" FontSize="12" />
+                                        <TextBlock Text="{Binding Status}" FontSize="12" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </DockPanel>
+                </TabItem>
 
-                    <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Spacing="10" Margin="0,0,0,10">
-
-                        <Button Content="Открыть окно сотрудников" Click="OpenEmployeesWindow"/>
-
-                    </StackPanel>
-
-                    <ListBox ItemsSource="{Binding EmployeesView.Employees}" SelectedItem="{Binding EmployeesView.SelectedEmployee}">
-
-                        <ListBox.ItemTemplate>
-                            <DataTemplate x:DataType="emplModels:EmployeeDto">
-                                <StackPanel>
-                                    <TextBlock Text="{Binding FullName}" FontWeight="Bold"/>
-                                    <TextBlock Text="{Binding Position}" FontSize="12"/>
-                                    <TextBlock Text="{Binding Status}" FontSize="12"/>
-                                </StackPanel>
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
-
-                    </ListBox>
-                    
-
-                </DockPanel>
-            </TabItem>
-
-            <TabItem Header="Смены">
-                <DockPanel Margin="10">
-
-                    <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Spacing="10" Margin="0,0,0,10">
-                        
-                        <Button Content="Открыть окно Смен" Click="OpenShiftWindow"/>
-                        
-                    </StackPanel>
-
-                    <ListBox ItemsSource="{Binding ShiftsView.Shifts}"
-                             SelectedItem="{Binding ShiftsView.SelectedShift}">
-                        <ListBox.ItemTemplate>
-                            <DataTemplate x:DataType="shiftModels:ShiftDto">
-                                <StackPanel>
-                                    <TextBlock Text="{Binding TimeRange}" FontWeight="Bold"/>
-                                    <TextBlock Text="{Binding Description}" FontSize="12"/>
-                                </StackPanel>
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
-                    </ListBox>
-                
-
-                </DockPanel>
-            </TabItem>
-
-        </TabControl>
-
-    </DockPanel>
+                <TabItem Header="Смены">
+                    <DockPanel Margin="10">
+                        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Spacing="10" Margin="0,0,0,10">
+                            <Button Content="Открыть окно Смен" Click="OpenShiftWindow" />
+                        </StackPanel>
+                        <ListBox ItemsSource="{Binding ShiftsView.Shifts}"
+                                 SelectedItem="{Binding ShiftsView.SelectedShift}">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate x:DataType="shiftModels:ShiftDto">
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding TimeRange}" FontWeight="Bold" />
+                                        <TextBlock Text="{Binding Description}" FontSize="12" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </DockPanel>
+                </TabItem>
+            </TabControl>
+            
+        </DockPanel>
+    </Border>
 </Window>

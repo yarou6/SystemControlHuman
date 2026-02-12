@@ -107,14 +107,36 @@ public class ApiService
     public async Task CreateEmployeeAsync(CreateEmployeeDto dto)
     {
         ApplyAuth();
-        var response = await http.PostAsJsonAsync("api/employees", dto);
+        var apiDto = new
+        {
+            Employee = new
+            {
+                dto.Employee.Id,
+                dto.Employee.FirstName,
+                dto.Employee.LastName,
+                dto.Employee.Position,
+                HireDate = dto.Employee.HireDate.DateTime, 
+                dto.Employee.IsActive
+            },
+            Credential = dto.Credential
+        };
+        var response = await http.PostAsJsonAsync("api/employees", apiDto);
         await HandleResponse(response);
     }
 
     public async Task UpdateEmployeeAsync(int id, EmployeeDto dto)
     {
         ApplyAuth();
-        var response = await http.PutAsJsonAsync($"api/employees/{id}", dto);
+        var apiDto = new EmployeeApiDto
+        {
+            Id = dto.Id,
+            FirstName = dto.FirstName,
+            LastName = dto.LastName,
+            Position = dto.Position,
+            HireDate = dto.HireDate.DateTime, 
+            IsActive = dto.IsActive
+        };
+        var response = await http.PutAsJsonAsync($"api/employees/{id}", apiDto);
         await HandleResponse(response);
     }
 
