@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 using SystemControlHuman.Models.Employees;
 using SystemControlHuman.Tools;
+using SystemControlHumanAPI.DB;
 
 namespace SystemControlHuman.ViewModels;
 
@@ -11,36 +14,127 @@ public class EmployeeEditorViewModel : BaseVM
     private readonly bool isEdit;
 
     public EmployeeDto Employee { get; set; }
+    public CredentialDto Credential { get; set; } = new CredentialDto();
+
+    public ObservableCollection<RoleDto> Roles { get; } = new();
+    private RoleDto selectedRole;
+    public RoleDto SelectedRole
+    {
+        get => selectedRole;
+        set
+        {
+            selectedRole = value;
+            OnPropertyChanged(nameof(SelectedRole));
+            if (selectedRole != null)
+                Credential.RoleId = selectedRole.Id;
+        }
+    }
 
     public RelayCommand SaveCommand { get; }
 
-    public EmployeeEditorViewModel(ApiService api, EmployeeDto? employee = null)
+    public EmployeeEditorViewModel(ApiService api, EmployeeWithRoleDto? employee = null)
     {
         this.api = api;
         isEdit = employee != null;
 
-        Employee = employee != null ? new EmployeeDto
+        Employee = employee?.Employee ?? new EmployeeDto { HireDate = DateTime.Now, IsActive = true };
+        if (employee?.Role != null)
         {
-            Id = employee.Id,
-            FirstName = employee.FirstName,
-            LastName = employee.LastName,
-            Position = employee.Position,
-            HireDate = employee.HireDate,
-            IsActive = employee.IsActive
-        } : new EmployeeDto { HireDate = DateTime.Now, IsActive = true };
+            Credential.RoleId = employee.Role.Id;
+        }
 
         SaveCommand = new RelayCommand(async () => await Save());
+
+       _ = LoadRoles(); 
     }
+
+
+
+    private async Task LoadRoles()
+    {
+        try
+        {
+            var employees = await api.GetEmployeesAsync();
+
+            var uniqueRoles = employees
+                .Select(e => e.Role)
+                .Where(r => r != null)
+                .DistinctBy(r => r.Id)
+                .ToList();
+
+            Roles.Clear();
+            foreach (var role in uniqueRoles)
+                Roles.Add(role);
+
+            if (Roles.Count == 0)
+            {
+                Console.WriteLine("Роли не найдены. Добавьте хотя бы одну роль в БД.");
+                return;
+            }
+
+            if (isEdit)
+            {
+                SelectedRole = Roles.FirstOrDefault(r => r.Id == Credential.RoleId) ?? Roles[0];
+            }
+            else
+            {
+                SelectedRole = Roles[0];
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Ошибка при загрузке ролей: {ex.Message}");
+        }
+    }
+
 
     private async Task Save()
     {
-        if (isEdit)
-            await api.UpdateEmployeeAsync(Employee.Id, Employee);
-        else
-            await api.CreateEmployeeAsync(new CreateEmployeeDto { Employee = Employee, Credential = null });
+        if (string.IsNullOrWhiteSpace(Credential.Username) || string.IsNullOrWhiteSpace(Credential.Password))
+        {
+            await ShowError("Имя пользователя и пароль обязательны!");
+            return;
+        }
 
-        CloseWindow(true);
+        if (SelectedRole == null)
+        {
+            await ShowError("Не выбрана роль!");
+            return;
+        }
+
+        Credential.RoleId = SelectedRole.Id;
+
+        try
+        {
+            if (isEdit)
+            {
+                await api.UpdateEmployeeAsync(Employee.Id, Employee);
+            }
+            else
+            {
+                var dto = new CreateEmployeeDto
+                {
+                    Employee = Employee,
+                    Credential = Credential
+                };
+                await api.CreateEmployeeAsync(dto);
+            }
+
+            CloseWindow(true);
+        }
+        catch (Exception ex)
+        {
+            await ShowError($"Ошибка при сохранении: {ex.Message}");
+        }
     }
+
+    private async Task ShowError(string message)
+    {
+        Console.WriteLine(message);
+        // Здесь можно подключить Avalonia MessageBox или просто вывод в консоль
+        await Task.CompletedTask;
+    }
+
 
     private void CloseWindow(bool result)
     {

@@ -4,7 +4,8 @@
         xmlns:vm="clr-namespace:SystemControlHuman.ViewModels"
         xmlns:employees="clr-namespace:SystemControlHuman.Models.Employees"
         x:Class="SystemControlHuman.Views.EmployeesWindow" 
-        x:DataType="vm:EmployeesViewModel">
+        x:DataType="vm:EmployeesViewModel"
+        Width="800" Height="600">
     <DockPanel Margin="10">
         <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Spacing="10">
             <Button Content="Добавить" Command="{Binding AddEmployeeCommand}" />
@@ -12,7 +13,7 @@
                     IsEnabled="{Binding SelectedEmployee}" />
             <Button Content="Удалить" Command="{Binding DeleteEmployeeCommand}" IsEnabled="{Binding SelectedEmployee}" />
         </StackPanel>
-        <DataGrid Items="{Binding Employees}" SelectedItem="{Binding SelectedEmployee}" AutoGenerateColumns="False"
+        <DataGrid ItemsSource="{Binding Employees}" SelectedItem="{Binding SelectedEmployee}" AutoGenerateColumns="False"
                   CanUserResizeColumns="True" Margin="0,10,0,0">
             <DataGrid.Columns>
                 <DataGridTemplateColumn Header="ФИО">

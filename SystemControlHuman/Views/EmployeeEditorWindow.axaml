@@ -9,11 +9,29 @@
         x:DataType="vm:EmployeeEditorViewModel">
 
     <StackPanel Margin="20" Spacing="10">
-        <TextBlock Text="Фамилия:" /> <TextBox Text="{Binding Employee.LastName}" /> <TextBlock Text="Имя:" />
-        <TextBox Text="{Binding Employee.FirstName}" /> <TextBlock Text="Должность:" />
-        <TextBox Text="{Binding Employee.Position}" /> <TextBlock Text="Дата приёма:" />
+        <TextBlock Text="Фамилия:" /> 
+        <TextBox Text="{Binding Employee.LastName}" /> 
+        <TextBlock Text="Имя:" />
+        <TextBox Text="{Binding Employee.FirstName}" /> 
+        <TextBlock Text="Позиция:" />
+        <TextBox Text="{Binding Employee.Position}" /> 
+        <TextBlock Text="Логин:"/>
+        <TextBox Text="{Binding Credential.Username}" />
+        <TextBlock Text="Пароль:"/>
+        <TextBox Text="{Binding Credential.Password}" />
+        <TextBlock Text="Дата приема:"/>
         <DatePicker SelectedDate="{Binding Employee.HireDate}" />
+        
         <CheckBox Content="Активен" IsChecked="{Binding Employee.IsActive}" />
+        <ComboBox ItemsSource="{Binding Roles}"
+                   SelectedItem="{Binding SelectedRole, Mode=TwoWay}">
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Title}" />
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+
         <Button Content="Сохранить" Command="{Binding SaveCommand}" HorizontalAlignment="Center" />
     </StackPanel>
 </Window>

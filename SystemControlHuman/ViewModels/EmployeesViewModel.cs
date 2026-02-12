@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using Avalonia.Controls.ApplicationLifetimes;
@@ -14,6 +15,7 @@ public class EmployeesViewModel : BaseVM
     private readonly ApiService api;
 
     public ObservableCollection<EmployeeDto> Employees { get; } = new();
+    
 
     private EmployeeDto? _selectedEmployee;
     public EmployeeDto? SelectedEmployee
@@ -43,10 +45,20 @@ public class EmployeesViewModel : BaseVM
 
     private async void LoadEmployees()
     {
-        Employees.Clear();
-        var list = await api.GetEmployeesAsync();
-        foreach (var emp in list)
-            Employees.Add(emp.Employee);
+        try
+        {
+            Employees.Clear();
+            var list = await api.GetEmployeesAsync();
+
+            Console.WriteLine("Employees count: " + list?.Count);
+
+            foreach (var emp in list)
+                Employees.Add(emp.Employee);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("Ошибка загрузки сотрудников: " + ex);
+        }
     }
     
     private async Task AddEmployee()
@@ -63,7 +75,11 @@ public class EmployeesViewModel : BaseVM
     private async Task EditEmployee()
     {
         if (SelectedEmployee == null) return;
-        var editor = new EmployeeEditorWindow(api, SelectedEmployee);
+
+        var employeeWithRole = await api.GetEmployeeAsync(SelectedEmployee.Id);
+
+        var editor = new EmployeeEditorWindow(api, employeeWithRole);
+
         var parentWindow = (App.Current.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime)?.MainWindow;
         if (parentWindow != null)
         {
@@ -71,6 +87,7 @@ public class EmployeesViewModel : BaseVM
             if (result) LoadEmployees();
         }
     }
+
 
     private async Task DeleteEmployee()
     {

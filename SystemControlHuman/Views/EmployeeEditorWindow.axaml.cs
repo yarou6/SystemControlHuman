@@ -6,9 +6,10 @@ namespace SystemControlHuman.Views;
 
 public partial class EmployeeEditorWindow : Window
 {
-    public EmployeeEditorWindow(ApiService api, EmployeeDto? employee = null)
+    public EmployeeEditorWindow(ApiService api, EmployeeWithRoleDto? employee = null)
     {
         InitializeComponent();
         DataContext = new EmployeeEditorViewModel(api, employee);
     }
+
 }

@@ -12,7 +12,7 @@ public class EmployeeDto
 
     public string Position { get; set; } = null!;
 
-    public DateTime HireDate { get; set; }
+    public DateTimeOffset HireDate { get; set; }
     
     public bool IsActive { get; set; }
 

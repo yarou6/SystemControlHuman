@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -66,15 +67,24 @@ public class ShiftsViewModel : BaseVM
 
     public async Task LoadShiftsAsync()
     {
-        Shifts.Clear();
-        var list = await api.GetShiftsAsync();
+        try
+        {
+            Shifts.Clear();
+            var list = await api.GetShiftsAsync();
 
-        var filtered = FilterEmployee != null
-            ? list.Where(s => s.Shift.EmployeeId == FilterEmployee.Id)
-            : list;
+            Console.WriteLine("Shifts count: " + list?.Count);
 
-        foreach (var s in filtered)
-            Shifts.Add(s.Shift);
+            var filtered = FilterEmployee != null
+                ? list.Where(s => s.Shift.EmployeeId == FilterEmployee.Id)
+                : list;
+
+            foreach (var s in filtered)
+                Shifts.Add(s.Shift);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("Ошибка загрузки смен: " + ex);
+        }
     }
 
     private async Task AddShift()

@@ -1,4 +1,5 @@
-﻿using Avalonia;
+﻿using System;
+using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using SystemControlHuman.ViewModels;
@@ -19,13 +20,13 @@ public partial class MainWindow : Window
     {
         var vm = ((MainViewModel)DataContext).ShiftsView;
         var window = new ShiftWindow(vm);
-        window.Show();
+        window.Show(this);
     }
 
     private void OpenEmployeesWindow(object? sender, RoutedEventArgs e)
     {
         var vm = ((MainViewModel)DataContext).EmployeesView;
         var window = new EmployeesWindow(vm);
-        window.Show();
+        window.Show(this);
     }
 }

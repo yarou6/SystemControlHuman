@@ -5,7 +5,6 @@
         xmlns:vm="clr-namespace:SystemControlHuman.ViewModels"
         xmlns:shiftModels="clr-namespace:SystemControlHuman.Models.Shifts"
         xmlns:emplModels="clr-namespace:SystemControlHuman.Models.Employees"
-        xmlns:views="clr-namespace:SystemControlHuman.Views"
         mc:Ignorable="d"
         Title="Система управления"
         Width="800" Height="600"
@@ -16,8 +15,8 @@
         <Border DockPanel.Dock="Bottom" Background="#EEE" Padding="8">
 
             <Grid ColumnDefinitions="Auto,Auto,Auto,Auto,*,Auto">
-                <TextBlock Text="Пользователь:" Margin="0,0,5,0"/>
-                <TextBlock Text="{Binding CurrentUser}" Margin="0,0,15,0"/>
+                <TextBlock Grid.Column="0" Text="Пользователь:" Margin="0,0,5,0"/>
+                <TextBlock Grid.Column="1" Text="{Binding CurrentUser}" Margin="0,0,15,0"/>
 
                 <TextBlock Grid.Column="2" Text="Роль:" Margin="0,0,5,0"/>
                 <TextBlock Grid.Column="3" Text="{Binding CurrentRole}"/>
@@ -33,14 +32,7 @@
 
                     <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Spacing="10" Margin="0,0,0,10">
 
-                        <Button Content="Добавить"
-                                Command="{Binding EmployeesView.AddEmployeeCommand}" />
-
-                        <Button Content="Редактировать"
-                                Command="{Binding EmployeesView.EditEmployeeCommand}" />
-
-                        <Button Content="Удалить"
-                                Command="{Binding EmployeesView.DeleteEmployeeCommand}" />
+                        <Button Content="Открыть окно сотрудников" Click="OpenEmployeesWindow"/>
 
                     </StackPanel>
 
@@ -58,7 +50,6 @@
 
                     </ListBox>
                     
-                    <Button Content="Открыть окно сотрудников" Click="OpenEmployeesWindow"/>
 
                 </DockPanel>
             </TabItem>
@@ -67,14 +58,9 @@
                 <DockPanel Margin="10">
 
                     <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Spacing="10" Margin="0,0,0,10">
-                        <Button Content="Добавить"
-                                Command="{Binding ShiftsView.AddShiftCommand}" />
-
-                        <Button Content="Редактировать"
-                                Command="{Binding ShiftsView.EditShiftCommand}" />
-
-                        <Button Content="Удалить"
-                                Command="{Binding ShiftsView.DeleteShiftCommand}" />
+                        
+                        <Button Content="Открыть окно Смен" Click="OpenShiftWindow"/>
+                        
                     </StackPanel>
 
                     <ListBox ItemsSource="{Binding ShiftsView.Shifts}"
@@ -89,7 +75,6 @@
                         </ListBox.ItemTemplate>
                     </ListBox>
                 
-                    <Button Content="Открыть окно сотрудников" Click="OpenShiftWindow"/>
 
                 </DockPanel>
             </TabItem>
