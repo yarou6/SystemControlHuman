@@ -19,4 +19,5 @@ public class EmployeeDto
     
     public string FullName => $"{LastName} {FirstName}";
     public string Status => IsActive ? "Активен" : "Уволен";
+
 }
