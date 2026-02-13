@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using SystemControlHuman.Models.Employees;
 using SystemControlHuman.Tools;
-using SystemControlHumanAPI.DB;
 
 namespace SystemControlHuman.ViewModels;
 
@@ -120,10 +119,17 @@ public class EmployeeEditorViewModel : BaseVM
 
                 var dto = new CreateEmployeeDto
                 {
-                    Employee = Employee,
+                    Employee = new EmployeeApiDto
+                    {
+                        Id = Employee.Id,
+                        FirstName = Employee.FirstName,
+                        LastName = Employee.LastName,
+                        Position = Employee.Position,
+                        HireDate = Employee.HireDate.DateTime, 
+                        IsActive = Employee.IsActive
+                    },
                     Credential = Credential
                 };
-
                 await api.CreateEmployeeAsync(dto);
             }
 

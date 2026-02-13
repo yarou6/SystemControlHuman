@@ -38,7 +38,7 @@
             <TextBox Text="{Binding Employee.Position}" />
             
             <TextBlock Text="Дата приема:" />
-            <DatePicker SelectedDate="{Binding Employee.HireDate}" />
+            <DatePicker SelectedDate="{Binding Employee.HireDate, Mode=TwoWay}" />
             
             <CheckBox Content="Работает?" IsChecked="{Binding Employee.IsActive}" />
 

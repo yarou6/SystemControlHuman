@@ -8,8 +8,8 @@ public class ShiftDto
 
     public int EmployeeId { get; set; }
 
-    public DateTimeOffset StartDateTime { get; set; }
-    public DateTimeOffset EndDateTime { get; set; }
+    public DateTime StartDateTime { get; set; }
+    public DateTime EndDateTime { get; set; }
 
     public string Description { get; set; }
 

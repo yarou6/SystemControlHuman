@@ -33,10 +33,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\SystemControlHumanAPI\SystemControlHumanAPI.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
       <AvaloniaXaml Remove="App.axaml" />
       <AvaloniaResource Include="App.axaml" />
     </ItemGroup>

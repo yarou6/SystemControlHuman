@@ -14,7 +14,7 @@
     <Border BorderBrush="#C9A227" BorderThickness="4" CornerRadius="8" Padding="15" Background="#DD1a1208">
         <DockPanel>
 
-            <Border DockPanel.Dock="Bottom" Background="#EEE" Padding="8">
+            <Border DockPanel.Dock="Bottom" Background="#1a0f07" Padding="8">
                 <Grid ColumnDefinitions="Auto,Auto,Auto,Auto,*,Auto">
                     <TextBlock Grid.Column="0" Text="Пользователь:" Margin="0,0,5,0" />
                     <TextBlock Grid.Column="1" Text="{Binding CurrentUser}" Margin="0,0,15,0" />
@@ -27,14 +27,15 @@
                 </Grid>
             </Border>
 
-            <TabControl>
+            <TabControl >
                 <TabItem Header="Сотрудники">
                     <DockPanel Margin="10">
                         <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Spacing="10" Margin="0,0,0,10">
                             <Button Content="Открыть окно сотрудников" Click="OpenEmployeesWindow" />
                         </StackPanel>
                         <ListBox ItemsSource="{Binding EmployeesView.Employees}"
-                                 SelectedItem="{Binding EmployeesView.SelectedEmployee}">
+                                 SelectedItem="{Binding EmployeesView.SelectedEmployee}"
+                                 >
                             <ListBox.ItemTemplate>
                                 <DataTemplate x:DataType="emplModels:EmployeeDto">
                                     <StackPanel>

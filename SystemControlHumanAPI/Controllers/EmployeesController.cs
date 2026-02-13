@@ -37,6 +37,7 @@ public class EmployeesController : Controller
                 },
                 RoleDto = new RoleDTO()
                 {
+                    Id = employee.Credentials.Last().Role.Id,
                     Title = employee.Credentials.Last().Role.Title
                 }
             });
@@ -61,13 +62,14 @@ public class EmployeesController : Controller
             },
             RoleDto = new RoleDTO()
             {
+                Id = employee.Credentials.Last().Role.Id,
                 Title = employee.Credentials.Last().Role.Title
             }
         });
     }
     
     [HttpPost("")]
-    public  async Task<ActionResult> AddEmployee(CredEmplDTO employeeCred)
+    public  async Task<ActionResult> AddEmployee([FromBody]CredEmplDTO employeeCred)
     {
         
         if (await db.Credentials.FirstOrDefaultAsync(x => x.Username == employeeCred.Credential.Username) != null)

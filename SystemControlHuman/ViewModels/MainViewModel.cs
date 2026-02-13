@@ -65,8 +65,8 @@ public class MainViewModel : BaseVM
         }
         catch (Exception ex)
         {
-            CurrentUser = "Ошибка";
-            CurrentRole = "Ошибка";
+            CurrentUser = $"Ошибка {ex.Message}";
+            CurrentRole = $"Ошибка {ex.Message}";
         }
     }
 

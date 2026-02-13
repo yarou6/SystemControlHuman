@@ -60,6 +60,12 @@
             <Setter Property="Foreground" Value="#FFD700"/>
             <Setter Property="BorderBrush" Value="#C9A227"/>
         </Style>
+        
+        <Style Selector="ListBox">
+            <Setter Property="Background" Value="#1c1208"/>
+            <Setter Property="Foreground" Value="#FFD700"/>
+            <Setter Property="BorderBrush" Value="#C9A227"/>
+        </Style>
 
         <Style Selector="DataGridRow">
             <Setter Property="Background" Value="#1a1208"/>
